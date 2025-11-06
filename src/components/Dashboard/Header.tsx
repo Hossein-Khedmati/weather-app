@@ -4,16 +4,15 @@ import {
   Toolbar,
   Typography,
   IconButton,
-  InputBase,
   Box,
   Menu,
   ToggleButton,
   ToggleButtonGroup,
   Divider,
   Button,
+  TextField,
 } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
-import SearchIcon from "@mui/icons-material/Search";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@mui/material/styles";
 import { useAuth } from "../../contexts/AuthContext";
@@ -59,9 +58,10 @@ const Header: React.FC<HeaderProps> = ({ onSearch, toggleTheme }) => {
     }
   };
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSearch(search);
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      onSearch(search);
+    }
   };
 
   return (
@@ -80,35 +80,37 @@ const Header: React.FC<HeaderProps> = ({ onSearch, toggleTheme }) => {
             {t("title")}
           </Typography>
 
-          {/* Search bar */}
-          <Box
-            component="form"
-            onSubmit={handleSearch}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              bgcolor: theme.palette.background.paper,
-              borderRadius: 2,
-              px: 2,
-              flex: 1,
-              maxWidth: 400,
-            }}
-          >
-            <SearchIcon color="action" />
-            <InputBase
-              placeholder={t("enterName")}
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+            {/* Search TextField */}
+            <TextField
+              size="small"
+              placeholder={t("cityName")}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              sx={{ ml: 1, flex: 1 }}
+              onKeyPress={handleKeyPress}
+              variant="outlined"
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "rgba(0, 0, 0, 0.23)", // Default border color
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "rgba(0, 0, 0, 0.23)", // Same on hover
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "rgba(0, 0, 0, 0.23)", // Same when focused
+                  },
+                },
+              }}
             />
+
+            {/* Settings Button */}
+            <IconButton color="inherit" onClick={handleOpenMenu}>
+              <SettingsIcon />
+            </IconButton>
           </Box>
 
-          {/* Settings Button */}
-          <IconButton color="inherit" onClick={handleOpenMenu}>
-            <SettingsIcon />
-          </IconButton>
-
-          {/* Small Settings Dropdown */}
+          {/* Settings Menu */}
           <Menu
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}
@@ -142,6 +144,7 @@ const Header: React.FC<HeaderProps> = ({ onSearch, toggleTheme }) => {
               onChange={handleThemeToggle}
               size="small"
               fullWidth
+              dir="ltr"
             >
               <ToggleButton value="light">{t("light")}</ToggleButton>
               <ToggleButton value="dark">{t("dark")}</ToggleButton>
@@ -161,6 +164,8 @@ const Header: React.FC<HeaderProps> = ({ onSearch, toggleTheme }) => {
               onChange={handleLanguageChange}
               size="small"
               fullWidth
+              dir="ltr"
+
             >
               <ToggleButton value="en">{t("english")}</ToggleButton>
               <ToggleButton value="fa">{t("persian")}</ToggleButton>
@@ -177,7 +182,8 @@ const Header: React.FC<HeaderProps> = ({ onSearch, toggleTheme }) => {
                 handleCloseMenu();
               }}
             >
-              <ExitToApp />{t("logout")}
+              <ExitToApp />
+              {t("logout")}
             </Button>
           </Menu>
         </Toolbar>
