@@ -40,7 +40,7 @@ const Header: React.FC<HeaderProps> = ({ onSearch, toggleTheme }) => {
   };
 
   const handleLanguageChange = (
-    event: React.MouseEvent<HTMLElement>,
+    _event: React.MouseEvent<HTMLElement>,
     newLang: string | null
   ) => {
     if (newLang) {
@@ -50,7 +50,7 @@ const Header: React.FC<HeaderProps> = ({ onSearch, toggleTheme }) => {
   };
 
   const handleThemeToggle = (
-    event: React.MouseEvent<HTMLElement>,
+    _event: React.MouseEvent<HTMLElement>,
     newTheme: "light" | "dark" | null
   ) => {
     if (newTheme && newTheme !== theme.palette.mode) {

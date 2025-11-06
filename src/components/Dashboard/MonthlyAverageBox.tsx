@@ -23,7 +23,7 @@ interface ChartData {
 }
 
 const MonthlyAverageBox: React.FC<MonthlyAverageBoxProps> = ({ lat, lon }) => {
-  const { i18n, t } = useTranslation();
+  const { i18n } = useTranslation();
   const [chartData, setChartData] = useState<ChartData[]>([]);
   const [loading, setLoading] = useState(true);
 
