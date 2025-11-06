@@ -13,6 +13,7 @@ import {
   FormControl,
   InputLabel,
   Grid,
+  useTheme,
 } from "@mui/material";
 import type { SelectChangeEvent } from "@mui/material/Select";
 import { useAuth } from "../../contexts/AuthContext";
@@ -23,7 +24,16 @@ const LoginPage = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
+  const theme = useTheme(); // ✅ Get current MUI theme (light or dark)
+  const { user } = useAuth();
 
+  // Redirect to dashboard if already logged in
+
+  useEffect(() => {
+    if (user) {
+      navigate("/dashboard");
+    }
+  }, [user, navigate]);
   // Set document direction based on language
   useEffect(() => {
     document.dir = i18n.language === "fa" ? "rtl" : "ltr";
@@ -53,15 +63,17 @@ const LoginPage = () => {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "#f5f5f5",
+        backgroundColor: theme.palette.background.default, // ✅ Dynamic background
+        color: theme.palette.text.primary,
         padding: 2,
         gap: 2,
+        transition: "background-color 0.3s ease, color 0.3s ease",
       }}
     >
       <Container
         maxWidth="lg"
-        sx={{ 
-          display: "flex", 
+        sx={{
+          display: "flex",
           alignItems: "center",
           justifyContent: "center",
         }}
@@ -72,6 +84,8 @@ const LoginPage = () => {
             width: "100%",
             maxHeight: "70vh",
             overflow: "hidden",
+            backgroundColor: theme.palette.background.paper, // ✅ Dynamic paper color
+            transition: "background-color 0.3s ease",
           }}
         >
           <Grid container columns={10}>
@@ -86,7 +100,7 @@ const LoginPage = () => {
               }}
             >
               <Typography variant="h4" component="h1" gutterBottom>
-                {t("welcome")}
+                {t("login")}
               </Typography>
 
               <Typography variant="body1" sx={{ marginBottom: 3 }}>
@@ -128,9 +142,10 @@ const LoginPage = () => {
                 alignItems: "center",
                 justifyContent: "center",
                 padding: 0,
-                backgroundColor: "#e3f2fd",
+                backgroundColor: theme.palette.primary.light, // ✅ match theme tone
                 minHeight: "400px",
                 maxHeight: "70vh",
+                transition: "background-color 0.3s ease",
               }}
             >
               <Box
@@ -156,7 +171,7 @@ const LoginPage = () => {
             value={i18n.language}
             label={t("language")}
             onChange={handleLanguageChange}
-            sx={{ backgroundColor: "white" }}
+            sx={{ backgroundColor: theme.palette.background.paper }}
           >
             <MenuItem value="en">English</MenuItem>
             <MenuItem value="fa">فارسی</MenuItem>

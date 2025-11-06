@@ -6,15 +6,21 @@ import LoginPage from "./components/Login/LoginPage";
 import DashboardPage from "./components/Dashboard/DashboardPage";
 import "./i18n/config";
 import { AuthProvider } from "./contexts/AuthContext";
+import ProtectedRoute from "./components/Login/ProtectedRoutes";
 
 function App() {
   const { i18n } = useTranslation();
-  const [mode, setMode] = useState<"light" | "dark">("light");
+  const storedMode = localStorage.getItem("themeMode") as "light" | "dark" | null;
+  const [mode, setMode] = useState<"light" | "dark">(storedMode || "dark");
 
   // تابع تغییر تم
-  const toggleTheme = () => {
-    setMode((prev) => (prev === "light" ? "dark" : "light"));
-  };
+const toggleTheme = () => {
+  setMode((prev) => {
+    const newMode = prev === "light" ? "dark" : "light";
+    localStorage.setItem("themeMode", newMode);
+    return newMode;
+  });
+};
 
   // ✅ ساخت تم با فونت فارسی و جهت درست بر اساس زبان
   const theme = useMemo(
@@ -47,7 +53,11 @@ function App() {
             <Route path="/" element={<LoginPage />} />
             <Route
               path="/dashboard"
-              element={<DashboardPage toggleTheme={toggleTheme} />}
+              element={
+                <ProtectedRoute>
+                  <DashboardPage toggleTheme={toggleTheme} />
+                </ProtectedRoute>
+              }
             />
           </Routes>
         </AuthProvider>

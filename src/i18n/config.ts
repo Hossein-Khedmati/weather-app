@@ -7,6 +7,7 @@ const resources = {
     translation: {
       // Login Page
       welcome: "Welcome to Weather Dashboard plaesese enter your city name and press Enter",
+      login:" Login",
       enterName: "Enter your name",
       namePlaceholder: "Your name",
       submit: "Get Started",
@@ -34,6 +35,7 @@ const resources = {
     translation: {
       // Login Page
       welcome: " به داشبورد آب و هوا خوش آمدید لطفا نام شهر خود را وارد کرده و اینتر را بزنید به انگلیسی",
+      login:" وارد شدن",
       enterName: "نام خود را وارد کنید",
       namePlaceholder: "نام شما",
       submit: "شروع کنید",
