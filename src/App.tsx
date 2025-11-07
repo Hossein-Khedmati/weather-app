@@ -10,24 +10,39 @@ import ProtectedRoute from "./components/Login/ProtectedRoutes";
 
 function App() {
   const { i18n } = useTranslation();
-  const storedMode = localStorage.getItem("themeMode") as "light" | "dark" | null;
+  const storedMode = localStorage.getItem("themeMode") as
+    | "light"
+    | "dark"
+    | null;
   const [mode, setMode] = useState<"light" | "dark">(storedMode || "dark");
 
   // تابع تغییر تم
-const toggleTheme = () => {
-  setMode((prev) => {
-    const newMode = prev === "light" ? "dark" : "light";
-    localStorage.setItem("themeMode", newMode);
-    return newMode;
-  });
-};
+  const toggleTheme = () => {
+    setMode((prev) => {
+      const newMode = prev === "light" ? "dark" : "light";
+      localStorage.setItem("themeMode", newMode);
+      return newMode;
+    });
+  };
 
   // ✅ ساخت تم با فونت فارسی و جهت درست بر اساس زبان
   const theme = useMemo(
     () =>
       createTheme({
         direction: i18n.language === "fa" ? "rtl" : "ltr",
-        palette: { mode },
+        palette: {
+          mode,
+          primary: {
+            main: "#0099e0", // قرمز
+          },
+          secondary: {
+            main: "#dafeff",
+          },
+          background: {
+            default: mode === "dark" ? "#121212" : "#ffffff",
+            paper: mode === "dark" ? "#1e1e1e" : "#f5f5f5",
+          },
+        },
         typography: {
           fontFamily: [
             "Vazirmatn",

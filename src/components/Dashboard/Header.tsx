@@ -66,7 +66,7 @@ const Header: React.FC<HeaderProps> = ({ onSearch, toggleTheme }) => {
 
   return (
     <>
-      <AppBar position="static" color="primary" elevation={1}>
+      <AppBar position="static" color="secondary" elevation={1}>
         <Toolbar
           sx={{
             display: "flex",
